@@ -1,5 +1,6 @@
 import { CartProductController } from "./controllers/CartProductControllers";
 import { CategoryController } from "./controllers/CategoryControllers";
+import { ImageProductController } from "./controllers/ImageProductController";
 import { ProductController } from "./controllers/ProductControllers";
 import { UsersController } from "./controllers/UsersControllers";
 import { CartProductPrismaRepositorie } from "./repositories/prisma/CartProductPrismaRepositorie";
@@ -26,3 +27,4 @@ export const categoryController = new CategoryController(categoryService);
 export const productController = new ProductController(productService);
 export const cartProductController = new CartProductController(cartProductService);
 export const userController = new UsersController(userService);
+export const imageProductController = new ImageProductController(productService);

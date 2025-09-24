@@ -14,4 +14,16 @@ export const UpdateProductRequestSchema = z.object({
     price: z.number().optional(),
     mark: z.string().optional(),
     categoryId: z.number().optional()
-})
+});
+
+export const ImageProductRequestSchema = z.object({
+    url: z.string(),
+    altText: z.string().optional(),
+    productId: z.number()
+});
+
+export const UpdatedImageProductRequestSchema = z.object({
+    url: z.string().optional(),
+    altText: z.string().optional(),
+    productId: z.number().optional()
+});

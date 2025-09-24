@@ -1,5 +1,5 @@
 import { HttpError } from "../errors/HttpError";
-import { CreateProductAttributes, IProductRepositorie } from "../repositories/ProductRepositorie";
+import { AddImageAttributes, CreateProductAttributes, IProductRepositorie } from "../repositories/ProductRepositorie";
 
 export class ProductService {
 
@@ -37,4 +37,27 @@ export class ProductService {
         const removeProduct = await this.productRepositorie.delete(id);
         return removeProduct;
     }
+
+    async imageExists(id: number){
+        const image = await this.productRepositorie.imageExists(id);
+        if(!image) new HttpError(404, "Imagem não encontrada!");
+    }
+
+    async addImage(attributes: AddImageAttributes) {
+        const createImage = await this.productRepositorie.addImage(attributes);
+        return createImage;
+    }
+
+    async updateImage(id: number, attributes: Partial<AddImageAttributes>) {
+        await this.imageExists(id);
+        const updatedImage = await this.productRepositorie.updateImage(id, attributes);
+        return updatedImage
+    }
+
+    async deleteImage(id: number) {
+        await this.imageExists(id);
+        const deletedImage = await this.productRepositorie.removeImage(id);
+        return deletedImage;
+    }
+
 }

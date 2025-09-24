@@ -14,7 +14,7 @@ export class UserPrismaRepositorie implements IUserRepositorie{
     findUnique (email: string): Promise<User | null>{
         return prisma.user.findUnique({ 
             where: { email },
-            include: { cart: true }  
+            include: { cart: { include: { products: true } } }  
         });
     };
 
