@@ -5,9 +5,9 @@ import { cartProductController, categoryController, imageProductController, prod
 
 export const router = Router();
 
-router.post("/register", userController.create);
 router.get("/users", userController.index);
-router.get("/users", userController.show);
+router.get("/users/email", userController.show);
+router.post("/register", userController.create);
 router.put("/users/:id", userController.update);
 router.delete("/users/:id", userController.delete);
 

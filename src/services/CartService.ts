@@ -6,13 +6,18 @@ export class CartProductService {
 
     async userAndProductExists (userId: number, productId: number) {
         const userExists = await this.cartProductRespositorie.userExists(userId);
-        if(!userExists) new HttpError(404, "Usuário não encontrado!");
+        if(!userExists) throw new HttpError(404, "Usuário não encontrado!");
         const productExists = await this.cartProductRespositorie.productExists(productId);
-        if(!productExists) new HttpError(404, "Product não encontrado!");
+        if(!productExists) throw new HttpError(404, "Product não encontrado!");
     }
 
     async addProductCart (userId: number , productId: number){
         await this.userAndProductExists(userId, productId);
+
+        const productAlreadyExists = await this.cartProductRespositorie.updateQuantityInCart(userId, productId);
+
+        if(productAlreadyExists) return productAlreadyExists ;
+
         const addProductCart = await this.cartProductRespositorie.addProductInCart(userId, productId);
         return addProductCart
     }

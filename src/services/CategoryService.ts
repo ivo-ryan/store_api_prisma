@@ -16,7 +16,7 @@ export class CategoryService {
 
     async categoryExists (id: number) {
         const category = await this.categoryRepositorie.findUnique(id);
-        if(!category) new HttpError(404, "Categoria não foi encontrada!");
+        if(!category) throw new HttpError(404, "Categoria não foi encontrada!");
     }
 
     async findByIdCategory (id: number) {

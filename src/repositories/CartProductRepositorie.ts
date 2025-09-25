@@ -5,4 +5,5 @@ export interface ICartProductRepositorie {
     removeProductInCart: (userId: number, productId: number) => Promise<CartProduct>;
     userExists: (userId: number) => Promise<User | null>;
     productExists: (productId: number) => Promise<Product | null >;
+    updateQuantityInCart: (userId: number, productId: number) => Promise<CartProduct | null>;
 }

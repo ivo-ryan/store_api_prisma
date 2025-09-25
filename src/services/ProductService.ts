@@ -12,7 +12,7 @@ export class ProductService {
 
     async productExists (id: number) {
         const product = await this.productRepositorie.findUnique(id);
-        if(!product) new HttpError(404, "Produto não encontrado!");
+        if(!product) throw new HttpError(404, "Produto não encontrado!");
     }
 
     async findByIdProduct(id: number) {
@@ -40,7 +40,7 @@ export class ProductService {
 
     async imageExists(id: number){
         const image = await this.productRepositorie.imageExists(id);
-        if(!image) new HttpError(404, "Imagem não encontrada!");
+        if(!image) throw new HttpError(404, "Imagem não encontrada!");
     }
 
     async addImage(attributes: AddImageAttributes) {

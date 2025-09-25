@@ -14,7 +14,7 @@ export class UserService {
 
     async createUser(attributes: CreateUserAttributes) {
         const userAlreadyExists = await this.userRepositorie.findUnique(attributes.email);
-        if(userAlreadyExists) new HttpError(404, "Usuário já existente com esse mesmo email!")
+        if(userAlreadyExists) throw new HttpError(404, "Usuário já existente com esse mesmo email!");
         const passwordHash = await bcrypt.hash(attributes.password, 10);
         attributes.password = passwordHash
         const newUser = await this.userRepositorie.create(attributes);
@@ -23,13 +23,13 @@ export class UserService {
 
     async findByEmail(email: string) {
         const user = await this.userRepositorie.findUnique(email);
-        if(!user) new HttpError(404, "Usuário não encontrado!");
+        if(!user) throw new HttpError(404, "Usuário não encontrado!");
         return user;
     }
 
     async userExists (id:number) {
         const user = await this.userRepositorie.findById(id);
-        if(!user) new HttpError(404, "Usuário não encontrado!");
+        if(!user) throw new HttpError(404, "Usuário não encontrado!");
     }
 
     async updateById (id: number, attributes: Partial<CreateUserAttributes>) {
