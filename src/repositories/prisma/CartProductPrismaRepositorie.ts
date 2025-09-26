@@ -50,23 +50,32 @@ export class CartProductPrismaRepositorie implements ICartProductRepositorie {
         }
     }
 
-    async updateQuantityInCart (userId: number, productId: number): Promise<CartProduct | null>{
+    async updateQuantityInCart (userId: number, productId: number, change: number): Promise<CartProduct | null>{
         const productCart = await this.productAlreadyInCart(userId, productId);
         const cartId = await this.cartIdAlreadyExists(userId);      
         if(!cartId?.cart || !productCart?.quantity) {
             return null
         }
-        else{
-            return prisma.cartProduct.update({
-                where: { cartId_productId: {
+
+        const newQuatity = productCart.quantity + change;
+
+        if( newQuatity <=0  ){
+            return prisma.cartProduct.delete({
+                 where: { cartId_productId: {
+                    cartId: cartId.cart.id,
+                    productId
+                } }
+            })
+        }
+
+
+        return prisma.cartProduct.update({
+             where: { cartId_productId: {
                     cartId: cartId.cart.id,
                     productId
                 } },
-                data: {
-                    quantity: productCart?.quantity + 1
-                }
-            })
-        }
+                data: { quantity: newQuatity }
+        });
         
     }
 
