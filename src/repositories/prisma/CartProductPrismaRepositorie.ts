@@ -59,13 +59,15 @@ export class CartProductPrismaRepositorie implements ICartProductRepositorie {
 
         const newQuatity = productCart.quantity + change;
 
-        if( newQuatity <=0  ){
-            return prisma.cartProduct.delete({
+        if( newQuatity <= 0  ){
+            await prisma.cartProduct.delete({
                  where: { cartId_productId: {
                     cartId: cartId.cart.id,
                     productId
                 } }
-            })
+            });
+
+            return null
         }
 
 

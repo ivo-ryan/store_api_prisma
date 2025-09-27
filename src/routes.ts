@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { cartProductController, categoryController, imageProductController, productController, userController } from "./container";
+import { ensureAuth } from "./middlewares/auth";
 
 
 
@@ -7,6 +8,7 @@ export const router = Router();
 
 router.get("/users", userController.index);
 router.get("/users/email", userController.show);
+router.post("/auth/login", userController.login);
 router.post("/register", userController.create);
 router.put("/users/:id", userController.update);
 router.delete("/users/:id", userController.delete);
@@ -23,8 +25,8 @@ router.get("/categories/:id", categoryController.show);
 router.put("/categories/:id", categoryController.update);
 router.delete("/categories/:id", categoryController.delete);
 
-router.post("/cart/products", cartProductController.addProduct);
-router.delete("/cart/products", cartProductController.deleteProduct);
+router.post("/cart/products", ensureAuth, cartProductController.addProduct);
+router.delete("/cart/products", ensureAuth, cartProductController.deleteProduct);
 
 router.post("/images/product", imageProductController.addImage);
 router.put("/images/products/:id", imageProductController.updateImage);

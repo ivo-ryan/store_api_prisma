@@ -1,5 +1,5 @@
 
-import { UpdateUserRequestSchema, UserByEmailRequestSchema, UserRequestSchema } from "./schema/UserRequestSchema";
+import { UpdateUserRequestSchema, UserByEmailRequestSchema, UserLoginRequestSchema, UserRequestSchema } from "./schema/UserRequestSchema";
 import { UserService } from "../services/UserService";
 import { Handler } from "express";
 
@@ -21,6 +21,16 @@ export class UsersController {
             const body = UserRequestSchema.parse(req.body);
             const newUser = await this.userService.createUser(body);
             res.status(201).json(newUser);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    login: Handler = async (req, res, next) => {
+        try {
+            const body = UserLoginRequestSchema.parse(req.body);
+            const token = await this.userService.checkPassword(body.email, body.password);
+            res.json({authenticated: true, token: token});
         } catch (error) {
             next(error)
         }

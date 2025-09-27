@@ -1,11 +1,15 @@
 import { HttpError } from "../errors/HttpError";
 import { CreateUserAttributes, IUserRepositorie } from "../repositories/UserRepositorie";
 import bcrypt from "bcrypt";
+import { JwtService } from "./JwtService";
 
 
 export class UserService {
 
-    constructor(readonly userRepositorie: IUserRepositorie){}
+    constructor(
+        readonly userRepositorie: IUserRepositorie,
+        readonly jwtService: JwtService
+    ){}
 
     async findAll () {
         const users = await this.userRepositorie.findMany();
@@ -25,6 +29,14 @@ export class UserService {
         const user = await this.userRepositorie.findUnique(email);
         if(!user) throw new HttpError(404, "Usuário não encontrado!");
         return user;
+    }
+
+    async checkPassword(email: string, password: string) {
+        const user = await this.findByEmail(email);
+        const correctPasword = await bcrypt.compare(password , user.password);
+        if(!correctPasword) throw new HttpError(404, "A senha está incorreta!");
+        const token = this.jwtService.signToken(user.id, user.email);
+        return token
     }
 
     async userExists (id:number) {

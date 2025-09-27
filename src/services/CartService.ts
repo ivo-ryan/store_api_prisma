@@ -16,7 +16,7 @@ export class CartProductService {
 
         const productAlreadyExists = await this.cartProductRespositorie.updateQuantityInCart(userId, productId, change );
 
-        if(productAlreadyExists) return productAlreadyExists ;
+        if(productAlreadyExists  ) return productAlreadyExists ;
 
         const addProductCart = await this.cartProductRespositorie.addProductInCart(userId, productId);
         return addProductCart
