@@ -1,10 +1,34 @@
 import { Product, ProductImage } from "@prisma/client";
-import { AddImageAttributes, CreateProductAttributes, IProductRepositorie } from "../ProductRepositorie";
+import { AddImageAttributes, CreateProductAttributes, FindProductParams, IProductRepositorie, ProductWhereParams } from "../ProductRepositorie";
 import { prisma } from "../../database/database";
 
 export class ProductPrismaRepositorie implements IProductRepositorie {
-    findMany () : Promise<Product[]>{
-        return prisma.product.findMany({ include: { images: true } });
+    findMany (params: FindProductParams) : Promise<Product[]>{
+        return prisma.product.findMany({
+            where: {
+                name: {
+                    contains: params.where?.name?.like,
+                    equals: params.where?.name?.equals,
+                    mode: params.where?.name?.mode
+                }               
+            },
+            skip: params.offset,
+            take: params.limit,
+            include: { images: true }, 
+            orderBy: { [params.sortBy ?? "name"]: params.order} 
+        });
+    }
+    
+    count (params: ProductWhereParams): Promise<number>{
+        return prisma.product.count({
+            where: {
+                name: {
+                    contains: params.name?.like,
+                    equals: params.name?.equals,
+                    mode: params.name?.mode
+                }               
+            }
+        })
     }
 
     findUnique (id: number) : Promise<Product | null>{
@@ -15,6 +39,7 @@ export class ProductPrismaRepositorie implements IProductRepositorie {
              }
         });
     }
+
 
     create (attributes: CreateProductAttributes) : Promise<Product>{
         return prisma.product.create({ data: attributes });

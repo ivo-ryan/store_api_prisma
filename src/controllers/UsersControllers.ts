@@ -8,6 +8,7 @@ export class UsersController {
 
     index: Handler = async (req, res, next) => {
         try {
+
             const users = await this.userService.findAll();
             res.json(users);
             

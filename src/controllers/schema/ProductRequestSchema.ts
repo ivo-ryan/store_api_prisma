@@ -1,5 +1,14 @@
 import z from "zod";
 
+
+export const GetProductRequestSchema = z.object({
+    name: z.string().optional(),
+    page: z.string().optional(),
+    pageSize: z.string().optional(),
+    sortBy: z.enum(["name", "createdAt"]).optional(),
+    order: z.enum(["asc", "desc"]).optional()
+});
+
 export const ProductRequestSchema = z.object({
     name: z.string(),
     description: z.string(),

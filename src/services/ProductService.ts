@@ -1,13 +1,36 @@
 import { HttpError } from "../errors/HttpError";
-import { AddImageAttributes, CreateProductAttributes, IProductRepositorie } from "../repositories/ProductRepositorie";
+import { AddImageAttributes, CreateProductAttributes, IProductRepositorie, ProductWhereParams } from "../repositories/ProductRepositorie";
+
+interface GetProductParams{
+    name?: string;
+    page?: number;
+    pageSize?: number;
+    order?: "asc" | "desc";
+    sortBy?: "name" | "createdAt"
+}
 
 export class ProductService {
 
     constructor( readonly productRepositorie: IProductRepositorie ){}
 
-    async findAllProducts() {
-        const products = await this.productRepositorie.findMany();
-        return products
+    async findAllProducts({ name, order , page= 1, pageSize= 10 , sortBy }: GetProductParams) {
+        const limit = pageSize;
+        const offset = ( page - 1) * limit;
+
+        const where: ProductWhereParams = {};
+        if(name) where.name = { like: name, mode: "insensitive" };
+
+        const products = await this.productRepositorie.findMany({ where, limit, offset, order, sortBy });
+        const total = await this.productRepositorie.count(where);
+        return {
+            data: products ,
+            meta: {
+                page,
+                pageSize: limit,
+                total,
+                totalPages: Math.ceil(total / limit)
+            }
+        }
     }
 
     async productExists (id: number) {

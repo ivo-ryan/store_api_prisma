@@ -1,5 +1,21 @@
 import { Product, ProductImage } from "@prisma/client";
 
+export interface ProductWhereParams {
+    name?: {
+        equals?: string;
+        like?: string;
+        mode?: "default" | "insensitive";
+    }
+}
+
+export interface FindProductParams {
+    where?: ProductWhereParams;
+    limit?: number;
+    offset?: number;
+    order?: "asc" | "desc";
+    sortBy?: "name" | "createdAt"
+}
+
 export interface CreateProductAttributes {
     name: string;
     description: string;
@@ -15,7 +31,8 @@ export interface AddImageAttributes {
 }
 
 export interface IProductRepositorie {
-    findMany: () => Promise<Product []>;
+    findMany: (params: FindProductParams) => Promise<Product []>;
+    count: (params: ProductWhereParams) => Promise<number>;
     findUnique: (id: number) => Promise<Product | null>;
     create: (attributes: CreateProductAttributes) => Promise<Product>;
     update: (id: number , attributes: Partial<CreateProductAttributes>) => Promise<Product | null>;

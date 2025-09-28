@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { ProductService } from "../services/ProductService";
-import { ProductRequestSchema, UpdateProductRequestSchema } from "./schema/ProductRequestSchema";
+import { GetProductRequestSchema, ProductRequestSchema, UpdateProductRequestSchema } from "./schema/ProductRequestSchema";
 
 export class ProductController{
 
@@ -8,7 +8,15 @@ export class ProductController{
 
     index: Handler = async ( req, res, next ) => {
         try {
-            const products = await  this.productService.findAllProducts();
+            const { name, order="asc", page="1", pageSize="10", sortBy="name" } = GetProductRequestSchema.parse(req.query);
+
+            const products = await  this.productService.findAllProducts({
+                name,
+                order,
+                page: +page,
+                pageSize: +pageSize,
+                sortBy
+            });
             res.json(products);
         } catch (error) {
             next(error)

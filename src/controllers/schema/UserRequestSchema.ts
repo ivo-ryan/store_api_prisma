@@ -1,4 +1,4 @@
-import z, { email } from "zod";
+import z from "zod";
 
 export const UserRequestSchema = z.object({
     name: z.string(),
@@ -17,7 +17,6 @@ export const UpdateUserRequestSchema = z.object({
 });
 
 export const UserLoginRequestSchema = z.object({
-    email: z.string(),
+    email: z.email(),
     password: z.string()
 });
-
