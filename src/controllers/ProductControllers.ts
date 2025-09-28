@@ -10,7 +10,7 @@ export class ProductController{
         try {
             const { name, order="asc", page="1", pageSize="10", sortBy="name" } = GetProductRequestSchema.parse(req.query);
 
-            const products = await  this.productService.findAllProducts({
+            const products = await this.productService.findAllProducts({
                 name,
                 order,
                 page: +page,
