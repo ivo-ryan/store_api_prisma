@@ -11,7 +11,7 @@ export class CartProductService {
         if(!productExists) throw new HttpError(404, "Product não encontrado!");
     }
 
-    async addProductCart (userId: number , productId: number, change: number = 1 ){
+    async addProductCart (userId: number , productId: number, change: number = 0 ){
         await this.userAndProductExists(userId, productId);   
 
         const productAlreadyExists = await this.cartProductRespositorie.updateQuantityInCart(userId, productId, change );
