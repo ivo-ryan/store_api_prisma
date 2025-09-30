@@ -1,15 +1,17 @@
-
-import { GoogleGenAI } from "@google/genai"
-
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export class ChatAiService {
-    async chatResponse(message: string) {
-        const ia = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY as string})
-        const model = await ia.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: message,
-        });
+  private ia: GoogleGenerativeAI;
 
-       return model.text
-    }
+  constructor() {
+    this.ia = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
+  }
+
+  async chatResponse(message: string) {
+    const model = this.ia.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+
+    const result = await model.generateContent(message);
+
+    return result.response.text(); // <- aqui é o texto da resposta
+  }
 }
