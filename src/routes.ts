@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { cartProductController, categoryController, imageProductController, productController, userController } from "./container";
+import { cartProductController, categoryController, chatAiController, imageProductController, productController, userController } from "./container";
 import { ensureAuth } from "./middlewares/auth";
 
 
@@ -12,6 +12,8 @@ router.post("/auth/login", userController.login);
 router.post("/register", userController.create);
 router.put("/users/:id", userController.update);
 router.delete("/users/:id", userController.delete);
+
+router.post("/chat", chatAiController.chat);
 
 router.get("/products", productController.index);
 router.post("/products", productController.create);
