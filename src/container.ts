@@ -1,6 +1,5 @@
 import { CartProductController } from "./controllers/CartProductControllers";
 import { CategoryController } from "./controllers/CategoryControllers";
-import { ChatAiController } from "./controllers/ChatAiController";
 import { ImageProductController } from "./controllers/ImageProductController";
 import { ProductController } from "./controllers/ProductControllers";
 import { UsersController } from "./controllers/UsersControllers";
@@ -10,7 +9,6 @@ import { ProductPrismaRepositorie } from "./repositories/prisma/ProductPrismaRep
 import { UserPrismaRepositorie } from "./repositories/prisma/UserPrismaRepositorie";
 import { CartProductService } from "./services/CartService";
 import { CategoryService } from "./services/CategoryService";
-import { ChatAiService } from "./services/ChatAiService";
 import { JwtService } from "./services/JwtService";
 import { ProductService } from "./services/ProductService";
 import { UserService } from "./services/UserService";
@@ -30,11 +28,9 @@ const secret = process.env.SECRET_KEY || "chave-super-secreta";
 export const jwt = new JwtService(secret);
 
 export const userService = new UserService(userRepositorie, jwt);
-const chatAiService = new ChatAiService();
 
 export const categoryController = new CategoryController(categoryService);
 export const productController = new ProductController(productService);
 export const cartProductController = new CartProductController(cartProductService);
 export const userController = new UsersController(userService);
 export const imageProductController = new ImageProductController(productService);
-export const chatAiController = new ChatAiController(chatAiService);
