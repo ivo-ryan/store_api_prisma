@@ -15,7 +15,9 @@ export class CategoryPrismaRepository implements ICategoryRepository{
         return prisma.category.findUnique({
             where: { id },
             include: {
-                products: true
+                products: {
+                    include: { images: true }
+                }
             }
         })
     }
