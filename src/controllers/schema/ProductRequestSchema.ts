@@ -14,7 +14,11 @@ export const ProductRequestSchema = z.object({
     description: z.string(),
     price: z.number(),
     mark: z.string(),
-    categoryId: z.number()
+    categoryId: z.number(),
+    oldPrice: z.number(),
+    favorite: z.boolean().optional(),
+    isNew:  z.boolean().optional(),
+    rating: z.number()
 });
 
 export const UpdateProductRequestSchema = z.object({
@@ -22,7 +26,11 @@ export const UpdateProductRequestSchema = z.object({
     description: z.string().optional(),
     price: z.number().optional(),
     mark: z.string().optional(),
-    categoryId: z.number().optional()
+    categoryId: z.number().optional(),
+    oldPrice: z.number().optional(),
+    favorite: z.boolean().optional(),
+    isNew:  z.boolean().optional(),
+    rating: z.number().optional()
 });
 
 export const ImageProductRequestSchema = z.object({

@@ -22,6 +22,10 @@ export interface CreateProductAttributes {
     price: number;
     mark: string;
     categoryId: number;
+    oldPrice: number;
+    favorite: boolean;
+    isNew: boolean;
+    rating: number;
 }
 
 export interface AddImageAttributes {

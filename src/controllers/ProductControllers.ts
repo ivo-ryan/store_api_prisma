@@ -58,6 +58,7 @@ export class ProductController{
         try {
             const id = +req.params.id;
             const deletedProduct = await this.productService.deleteProduct(id);
+            res.json(deletedProduct);
         } catch (error) {
             next(error)
         }

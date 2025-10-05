@@ -1,5 +1,5 @@
 import { HttpError } from "../errors/HttpError";
-import { AddImageAttributes, CreateProductAttributes, IProductRepositorie, ProductWhereParams } from "../repositories/ProductRepositorie";
+import { AddImageAttributes, IProductRepositorie, ProductWhereParams } from "../repositories/ProductRepositorie";
 
 interface GetProductParams{
     name?: string;
@@ -7,6 +7,18 @@ interface GetProductParams{
     pageSize?: number;
     order?: "asc" | "desc";
     sortBy?: "name" | "createdAt"
+}
+
+interface CreateProductAttributes {
+    name: string;
+    description: string;
+    price: number;
+    mark: string;
+    categoryId: number;
+    oldPrice: number;
+    favorite?: boolean;
+    isNew?: boolean;
+    rating: number;
 }
 
 export class ProductService {
@@ -44,8 +56,27 @@ export class ProductService {
         return product;
     }
 
-    async createProduct(attributes: CreateProductAttributes) {
-        const newProduct = await this.productRepositorie.create(attributes);
+    async createProduct({ categoryId, 
+        description, 
+        mark, 
+        name, 
+        oldPrice, 
+        price, 
+        rating, 
+        favorite = false, 
+        isNew = false }: CreateProductAttributes) {
+        
+        const newProduct = await this.productRepositorie.create({
+            categoryId,
+            description,
+            mark,
+            name,
+            oldPrice,
+            price,
+            rating,
+            favorite,
+            isNew
+        });
         return newProduct;
     }
 
