@@ -15,9 +15,14 @@ router.delete("/users/:id", userController.delete);
 
 router.get("/products", productController.index);
 router.post("/products", productController.create);
+router.get("/products/newest" , productController.featuredProduct);
 router.get("/products/:id", productController.show);
 router.put("/products/:id", productController.update);
 router.delete("/products/:id", productController.delete);
+
+router.get("/favorites", productController.getAllFavorites);
+router.post("/favorites/:id", productController.addFavorite);
+router.delete("/favorites/:id", productController.deleteFavorite);
 
 router.get("/categories", categoryController.index);
 router.post("/categories", categoryController.create);

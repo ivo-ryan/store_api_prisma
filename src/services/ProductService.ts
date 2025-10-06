@@ -16,7 +16,7 @@ interface CreateProductAttributes {
     mark: string;
     categoryId: number;
     oldPrice: number;
-    favorite?: boolean;
+    featured?: boolean;
     isNew?: boolean;
     rating: number;
 }
@@ -63,7 +63,7 @@ export class ProductService {
         oldPrice, 
         price, 
         rating, 
-        favorite = false, 
+        featured = false, 
         isNew = false }: CreateProductAttributes) {
         
         const newProduct = await this.productRepositorie.create({
@@ -74,7 +74,7 @@ export class ProductService {
             oldPrice,
             price,
             rating,
-            favorite,
+            featured,
             isNew
         });
         return newProduct;
@@ -84,6 +84,12 @@ export class ProductService {
         await this.productExists(id);
         const updatedProduct = await this.productRepositorie.update(id, attributes);
         return updatedProduct;
+    }
+
+    async featuredProducts() {
+        const featured = await this.productRepositorie.featuredProduct();
+        if(!featured) throw new HttpError(404, "Nenhum produto em destaque foi encontrado!");
+        return featured
     }
 
     async deleteProduct(id: number) {
@@ -112,6 +118,23 @@ export class ProductService {
         await this.imageExists(id);
         const deletedImage = await this.productRepositorie.removeImage(id);
         return deletedImage;
+    }
+
+    async addFavorite(userId: number , productId: number) {
+        await this.productExists(productId);
+        const addfavorite = await this.productRepositorie.addFavoriteProduct(userId, productId);
+        return addfavorite
+    }
+
+    async deleteFavorite(userId: number , productId: number){
+        await this.productExists(productId);
+        const removeFavorite = await this.productRepositorie.removeFavoriteProduct(userId, productId);
+        return removeFavorite
+    }
+
+    async favorites( userId: number){
+        const favorites = await this.productRepositorie.getAllFavorites(userId);
+        return favorites;
     }
 
 }

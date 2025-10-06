@@ -16,7 +16,7 @@ export const ProductRequestSchema = z.object({
     mark: z.string(),
     categoryId: z.number(),
     oldPrice: z.number(),
-    favorite: z.boolean().optional(),
+    featured: z.boolean().optional(),
     isNew:  z.boolean().optional(),
     rating: z.number()
 });
@@ -28,7 +28,7 @@ export const UpdateProductRequestSchema = z.object({
     mark: z.string().optional(),
     categoryId: z.number().optional(),
     oldPrice: z.number().optional(),
-    favorite: z.boolean().optional(),
+    featured: z.boolean().optional(),
     isNew:  z.boolean().optional(),
     rating: z.number().optional()
 });

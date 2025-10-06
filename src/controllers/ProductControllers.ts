@@ -1,6 +1,7 @@
 import { Handler } from "express";
 import { ProductService } from "../services/ProductService";
 import { GetProductRequestSchema, ProductRequestSchema, UpdateProductRequestSchema } from "./schema/ProductRequestSchema";
+import { AuthenticatedRequest } from "../middlewares/auth";
 
 export class ProductController{
 
@@ -59,6 +60,47 @@ export class ProductController{
             const id = +req.params.id;
             const deletedProduct = await this.productService.deleteProduct(id);
             res.json(deletedProduct);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    featuredProduct: Handler = async ( req, res , next ) => {
+        try {
+            const featuredProducts = await this.productService.featuredProducts();
+            res.json(featuredProducts);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    addFavorite: Handler = async (req: AuthenticatedRequest, res , next) => {
+        try {
+            const userId = req.user!.id;
+            const productId = +req.params.id;
+            const addFavorite = await this.productService.addFavorite(userId, productId);
+            res.status(201).json(addFavorite);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    getAllFavorites: Handler = async (req: AuthenticatedRequest, res , next) => {
+        try {
+            const userId = req.user!.id;
+            const favorites = await this.productService.favorites(userId);
+            res.json(favorites);
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    deleteFavorite: Handler = async (req: AuthenticatedRequest, res , next) => {
+        try {
+            const userId = req.user!.id;
+            const productId = +req.params.id;
+            const deleteFavorite = await this.productService.deleteFavorite(userId, productId);
+            res.json(deleteFavorite);
         } catch (error) {
             next(error)
         }

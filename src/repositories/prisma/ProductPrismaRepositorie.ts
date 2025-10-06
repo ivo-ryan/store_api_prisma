@@ -1,4 +1,4 @@
-import { Product, ProductImage } from "@prisma/client";
+import { Favorite, Product, ProductImage } from "@prisma/client";
 import { AddImageAttributes, CreateProductAttributes, FindProductParams, IProductRepositorie, ProductWhereParams } from "../ProductRepositorie";
 import { prisma } from "../../database/database";
 
@@ -56,6 +56,13 @@ export class ProductPrismaRepositorie implements IProductRepositorie {
         return prisma.product.delete({ where: { id } });
     }
 
+    featuredProduct () : Promise<Product[]>{
+        return prisma.product.findMany({
+            where: { featured: true }
+        });
+    }
+    
+
     addImage (attributes: AddImageAttributes): Promise<ProductImage> {
         return prisma.productImage.create({
             data: attributes
@@ -76,5 +83,29 @@ export class ProductPrismaRepositorie implements IProductRepositorie {
     imageExists (id: number) : Promise<ProductImage | null>{
         return prisma.productImage.findUnique({ where: { id } });
     }
-    
+
+    addFavoriteProduct (userId: number, productId: number): Promise<Favorite | null>{
+        return prisma.favorite.create({
+            data: { 
+                productId,
+                userId
+             }
+        })
+    }
+
+    removeFavoriteProduct (userId: number, productId: number): Promise<Favorite | null>{
+        return prisma.favorite.delete({
+            where: {
+                userId_productId: { productId, userId }
+            }
+        })
+    }
+
+    getAllFavorites (userId: number) : Promise<Favorite[]>{
+        return prisma.favorite.findMany({
+            where: { userId },
+            include: { product: true }
+        })
+    }
+
 }

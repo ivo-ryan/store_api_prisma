@@ -1,4 +1,4 @@
-import { Product, ProductImage } from "@prisma/client";
+import { Favorite, Product, ProductImage } from "@prisma/client";
 
 export interface ProductWhereParams {
     name?: {
@@ -23,7 +23,7 @@ export interface CreateProductAttributes {
     mark: string;
     categoryId: number;
     oldPrice: number;
-    favorite: boolean;
+    featured: boolean;
     isNew: boolean;
     rating: number;
 }
@@ -45,4 +45,8 @@ export interface IProductRepositorie {
     updateImage: (id: number , attributes: Partial<AddImageAttributes>) => Promise<ProductImage | null>;
     removeImage: (id: number) => Promise<ProductImage | null>;
     imageExists: (id: number) => Promise<ProductImage | null>;
+    featuredProduct: () => Promise<Product[]>;
+    addFavoriteProduct: (userId: number, productId: number) => Promise< Favorite | null>;
+    removeFavoriteProduct: (userId: number, productId: number) => Promise< Favorite | null >;
+    getAllFavorites: (userId: number) => Promise<Favorite []>;
 }
