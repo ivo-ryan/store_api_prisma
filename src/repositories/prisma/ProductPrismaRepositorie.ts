@@ -58,7 +58,8 @@ export class ProductPrismaRepositorie implements IProductRepositorie {
 
     featuredProduct () : Promise<Product[]>{
         return prisma.product.findMany({
-            where: { featured: true }
+            where: { featured: true },
+            include: { images: true }
         });
     }
     
