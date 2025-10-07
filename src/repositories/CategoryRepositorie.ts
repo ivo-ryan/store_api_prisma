@@ -3,7 +3,6 @@ import { Category } from "@prisma/client";
 export interface CreateCategoryAttributes {
     name: string;
     position: number;
-    image: string
 }
 
 export interface ICategoryRepository {
