@@ -7,7 +7,7 @@ import { ensureAuth } from "./middlewares/auth";
 export const router = Router();
 
 router.get("/users", userController.index);
-router.get("/users/email", userController.show);
+router.post("/users/email", userController.show);
 router.post("/auth/login", userController.login);
 router.post("/register", userController.create);
 router.put("/users/:id", userController.update);
