@@ -11,6 +11,8 @@ export interface AuthenticatedRequest extends Request {
 export const ensureAuth = (req: AuthenticatedRequest, res: Response , next: NextFunction) => {
     const authHeader = req.headers.authorization;
 
+    console.log(authHeader)
+
     if(!authHeader) throw new HttpError(404, "Não autorizado, nenhum token foi encontrado!");
 
     const token = authHeader.replace(/Bearer /, '');
