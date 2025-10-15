@@ -20,9 +20,9 @@ router.get("/products/:id", productController.show);
 router.put("/products/:id", productController.update);
 router.delete("/products/:id", productController.delete);
 
-router.get("/favorites", productController.getAllFavorites);
-router.post("/favorites/:id", productController.addFavorite);
-router.delete("/favorites/:id", productController.deleteFavorite);
+router.get("/favorites", ensureAuth, productController.getAllFavorites);
+router.post("/favorites", ensureAuth, productController.addFavorite);
+router.delete("/favorites", ensureAuth, productController.deleteFavorite);
 
 router.get("/categories", categoryController.index);
 router.post("/categories", categoryController.create);

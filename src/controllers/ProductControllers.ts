@@ -77,8 +77,8 @@ export class ProductController{
     addFavorite: Handler = async (req: AuthenticatedRequest, res , next) => {
         try {
             const userId = req.user!.id;
-            const productId = +req.params.id;
-            const addFavorite = await this.productService.addFavorite(userId, productId);
+            const productId: { productId:number } = req.body;
+            const addFavorite = await this.productService.addFavorite(userId, productId.productId);
             res.status(201).json(addFavorite);
         } catch (error) {
             next(error)
