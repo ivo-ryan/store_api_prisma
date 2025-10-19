@@ -105,7 +105,9 @@ export class ProductPrismaRepositorie implements IProductRepositorie {
     getAllFavorites (userId: number) : Promise<Favorite[]>{
         return prisma.favorite.findMany({
             where: { userId },
-            include: { product: true }
+            include: { product: {
+                include: { images: true }
+            } }
         })
     }
 
