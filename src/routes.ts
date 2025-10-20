@@ -22,6 +22,7 @@ router.delete("/products/:id", productController.delete);
 
 router.get("/favorites", ensureAuth, productController.getAllFavorites);
 router.post("/favorites", ensureAuth, productController.addFavorite);
+router.post("/favorites/product", ensureAuth, productController.getFavoriteProduct);
 router.delete("/favorites", ensureAuth, productController.deleteFavorite);
 
 router.get("/categories", categoryController.index);

@@ -94,6 +94,12 @@ export class ProductPrismaRepositorie implements IProductRepositorie {
         })
     }
 
+   getProductFavoriteById (userId: number, productId: number): Promise<Favorite | null>{
+    return prisma.favorite.findUnique({
+        where: { userId_productId: { productId, userId } }
+    });
+   }
+
     removeFavoriteProduct (userId: number, productId: number): Promise<Favorite | null>{
         return prisma.favorite.delete({
             where: {

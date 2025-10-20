@@ -85,6 +85,18 @@ export class ProductController{
         }
     }
 
+    getFavoriteProduct: Handler = async (req: AuthenticatedRequest, res , next) => {
+        try {
+            const userId = req.user!.id;
+            const productId: { productId: number } = req.body;
+            const getFavoriteProduct = await this.productService.findUniqueFavorites(userId, productId.productId);
+            res.json(getFavoriteProduct);
+            
+        } catch (error) {
+            next(error)
+        }
+    }
+
     getAllFavorites: Handler = async (req: AuthenticatedRequest, res , next) => {
         try {
             const userId = req.user!.id;

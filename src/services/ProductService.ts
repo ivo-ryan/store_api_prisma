@@ -126,6 +126,12 @@ export class ProductService {
         return addfavorite
     }
 
+    async findUniqueFavorites(userId: number , productId: number) {
+        await this.productExists(productId);
+        const productFavorite = await this.productRepositorie.getProductFavoriteById(userId, productId);
+        return productFavorite;
+    }
+
     async deleteFavorite(userId: number , productId: number){
         await this.productExists(productId);
         const removeFavorite = await this.productRepositorie.removeFavoriteProduct(userId, productId);

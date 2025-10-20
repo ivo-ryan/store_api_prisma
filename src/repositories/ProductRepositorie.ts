@@ -49,4 +49,5 @@ export interface IProductRepositorie {
     addFavoriteProduct: (userId: number, productId: number) => Promise< Favorite | null>;
     removeFavoriteProduct: (userId: number, productId: number) => Promise< Favorite | null >;
     getAllFavorites: (userId: number) => Promise<Favorite []>;
+    getProductFavoriteById: (userId: number , productId: number) => Promise< Favorite | null>;
 }
