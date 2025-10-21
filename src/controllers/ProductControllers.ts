@@ -110,7 +110,7 @@ export class ProductController{
     deleteFavorite: Handler = async (req: AuthenticatedRequest, res , next) => {
         try {
             const userId = req.user!.id;
-            const productId = +req.params.id;
+            const productId = +req.params.productId;
             const deleteFavorite = await this.productService.deleteFavorite(userId, productId);
             res.json(deleteFavorite);
         } catch (error) {
