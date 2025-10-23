@@ -31,6 +31,7 @@ router.get("/categories/:id", categoryController.show);
 router.put("/categories/:id", categoryController.update);
 router.delete("/categories/:id", categoryController.delete);
 
+router.get("/cart", ensureAuth, cartProductController.getAllProducts);
 router.post("/cart/products", ensureAuth, cartProductController.addProduct);
 router.delete("/cart/products", ensureAuth, cartProductController.deleteProduct);
 

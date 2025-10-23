@@ -1,4 +1,4 @@
-import { CartProduct, User, Product } from "@prisma/client";
+import { CartProduct, User, Product, Cart } from "@prisma/client";
 import { ICartProductRepositorie } from "../CartProductRepositorie";
 import { prisma } from "../../database/database";
 
@@ -28,8 +28,16 @@ export class CartProductPrismaRepositorie implements ICartProductRepositorie {
         return prisma.cartProduct.delete({ where: { cartId_productId: { cartId, productId } } });
     }
 
-    userExists (userId: number):  Promise<User | null>{
-        return prisma.user.findUnique({ where: { id: userId } });
+    async getProductsInCart (userId: number):  Promise< CartProduct[]>{
+        const cartId = await this.cartIdExists(userId);
+        return prisma.cartProduct.findMany({
+            where: { cartId },
+            include: {
+                product: {
+                    include: { images: true }
+                }
+            }
+        })
     }
 
     productExists (productId: number):  Promise<Product | null>{

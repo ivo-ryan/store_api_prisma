@@ -1,13 +1,27 @@
 import { Handler } from "express";
 import { CartProductService } from "../services/CartService";
 import { CartProductRequestSchema } from "./schema/CartProductRequestSchema";
+import { AuthenticatedRequest } from "../middlewares/auth";
 
 export class CartProductController {
     constructor(readonly cartProductService: CartProductService) {}
 
-    addProduct: Handler = async ( req , res , next ) => {
+    getAllProducts: Handler = async ( req:AuthenticatedRequest , res , next  ) => {
         try {
-            const { userId, productId , change } = CartProductRequestSchema.parse(req.body);
+            
+            const userId = req.user!.id;
+            const productsInCart = await this.cartProductService.getAllProducts(userId);
+            res.json(productsInCart)
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    addProduct: Handler = async ( req:AuthenticatedRequest , res , next ) => {
+        try {
+            const userId = req.user!.id;
+            const { productId , change } = CartProductRequestSchema.parse(req.body);
             const newProductInCart = await this.cartProductService.addProductCart(userId, productId, change);
             res.status(201).json(newProductInCart);
         } catch (error) {
@@ -15,9 +29,10 @@ export class CartProductController {
         }
     }
 
-    deleteProduct: Handler = async ( req , res , next ) => {
+    deleteProduct: Handler = async ( req:AuthenticatedRequest , res , next ) => {
         try {
-            const { userId, productId } = req.body;
+            const userId = req.user!.id;
+            const { productId } = req.body;
             const deleteProductIncart = await this.cartProductService.removeProductInCart(userId, productId);
             res.json(deleteProductIncart); 
         } catch (error) {
