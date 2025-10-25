@@ -33,7 +33,7 @@ router.delete("/categories/:id", categoryController.delete);
 
 router.get("/cart", ensureAuth, cartProductController.getAllProducts);
 router.post("/cart/products", ensureAuth, cartProductController.addProduct);
-router.delete("/cart/products", ensureAuth, cartProductController.deleteProduct);
+router.delete("/cart/products/:id", ensureAuth, cartProductController.deleteProduct);
 
 router.post("/images/product", imageProductController.addImage);
 router.put("/images/products/:id", imageProductController.updateImage);

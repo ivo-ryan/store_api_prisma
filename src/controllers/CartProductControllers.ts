@@ -32,7 +32,7 @@ export class CartProductController {
     deleteProduct: Handler = async ( req:AuthenticatedRequest , res , next ) => {
         try {
             const userId = req.user!.id;
-            const { productId } = req.body;
+            const  productId  = +req.params.id;
             const deleteProductIncart = await this.cartProductService.removeProductInCart(userId, productId);
             res.json(deleteProductIncart); 
         } catch (error) {
