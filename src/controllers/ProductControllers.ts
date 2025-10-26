@@ -88,8 +88,8 @@ export class ProductController{
     getFavoriteProduct: Handler = async (req: AuthenticatedRequest, res , next) => {
         try {
             const userId = req.user!.id;
-            const productId: { productId: number } = req.body;
-            const getFavoriteProduct = await this.productService.findUniqueFavorites(userId, productId.productId);
+            const productId = +req.params.productId;
+            const getFavoriteProduct = await this.productService.findUniqueFavorites(userId, productId);
             res.json(getFavoriteProduct);
             
         } catch (error) {
