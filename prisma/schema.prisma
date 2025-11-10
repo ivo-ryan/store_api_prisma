@@ -79,7 +79,7 @@ model CartProduct {
 
 // schema.prisma (adicionar)
 model Order {
-  id         String      @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   status     OrderStatus @default(PENDING)
@@ -90,19 +90,19 @@ model Order {
 }
 
 model OrderItem {
-  id        String   @id @default(cuid())
+  id        Int   @id @default(autoincrement())
   order     Order    @relation(fields: [orderId], references: [id])
-  orderId   String
-  productId String
+  orderId   Int
+  productId Int
   name      String
   price     Float
   quantity  Int
 }
 
 model Payment {
-  id           String       @id @default(cuid())
+  id           Int       @id @default(autoincrement())
   order        Order        @relation(fields: [orderId], references: [id])
-  orderId      String @unique
+  orderId      Int @unique
   provider     String       // ex: "simulated"
   status       PaymentStatus @default(PENDING)
   amount       Float
