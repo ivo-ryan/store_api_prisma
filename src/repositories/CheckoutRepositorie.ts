@@ -1,4 +1,4 @@
-import { Order } from "@prisma/client";
+import { Order, Payment } from "@prisma/client";
 
 export interface ItemsProps {
     productId: number;
@@ -7,6 +7,15 @@ export interface ItemsProps {
     quantity: number;
 }
 
+export type PaymentStatus = "PAID" | "FAILED";
+
+export type OrderStatus = "PAID" | "CANCELLED" | "PENDING"
+
 export interface ICheckoutRepositorie {
-    createOrder: (total: number, items: ItemsProps[], customer?: string | null) => Promise<Order>
+    getOrders: (userId: number) => Promise<Order[]>;
+    createOrder: (total: number, items: ItemsProps[],userId: number, customer?: string | null) => Promise<Order>;
+    createPayment: (orderId: number, amount: number) => Promise<Payment>;
+    updatePayment: (paymentId: number , status:PaymentStatus ) => Promise<Payment>;
+    updateOrder: (orderId: number, status: OrderStatus) => Promise<Order>;
+
 }

@@ -6,6 +6,9 @@ export const CheckoutRequestSchema = z.object({
         name: z.string(),
         price: z.number(),
         quantity: z.number()
-    })),
-    customer: z.string().optional()
+    }))
+});
+
+export const UpdatedPaymentRequestSchema = z.object({
+    status: z.enum(["PAID", "FAILED"])
 })

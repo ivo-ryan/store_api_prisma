@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { cartProductController, categoryController, imageProductController, productController, userController } from "./container";
+import { cartProductController, categoryController, checkoutController, imageProductController, productController, userController } from "./container";
 import { ensureAuth } from "./middlewares/auth";
 
 
@@ -38,3 +38,6 @@ router.delete("/cart/products/:id", ensureAuth, cartProductController.deleteProd
 router.post("/images/product", imageProductController.addImage);
 router.put("/images/products/:id", imageProductController.updateImage);
 router.delete("/images/products/:id", imageProductController.deleteImage);
+router.get("/orders", ensureAuth, checkoutController.getAllOrders);
+router.post("/checkout", ensureAuth, checkoutController.create);
+router.post("/payments/:paymentId/simulate", ensureAuth, checkoutController.updatedPayment);
