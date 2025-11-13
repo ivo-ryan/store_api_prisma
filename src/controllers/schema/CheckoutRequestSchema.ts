@@ -5,7 +5,8 @@ export const CheckoutRequestSchema = z.object({
         productId: z.number(),
         name: z.string(),
         price: z.number(),
-        quantity: z.number()
+        quantity: z.number(),
+        image: z.string()
     }))
 });
 

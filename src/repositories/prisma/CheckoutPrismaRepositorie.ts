@@ -33,7 +33,8 @@ export class CheckoutPrismaRepositorie implements ICheckoutRepositorie{
                         productId: i.productId,
                         name: i.name,
                         price: i.price,
-                        quantity: i.quantity
+                        quantity: i.quantity,
+                        image: i.image
                     }))
                 }
             },

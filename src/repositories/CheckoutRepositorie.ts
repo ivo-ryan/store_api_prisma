@@ -5,6 +5,7 @@ export interface ItemsProps {
     name: string;
     price: number;
     quantity: number;
+    image: string
 }
 
 export type PaymentStatus = "PAID" | "FAILED";
