@@ -14,7 +14,7 @@ model User {
   password String
   cart     Cart?
   favorite Favorite[]
-  orders    Order[] 
+  orders   Order[]
 }
 
 model Cart {
@@ -44,9 +44,9 @@ model Product {
   featured    Boolean
   cart        CartProduct[]
   favorite    Favorite[]
+  orderItem   OrderItem[]
   category    Category       @relation(fields: [categoryId], references: [id])
   images      ProductImage[]
-  orderItem   OrderItem[]
 }
 
 model Favorite {
@@ -80,40 +80,39 @@ model CartProduct {
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
-  userId     Int 
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  status     OrderStatus @default(PENDING)
-  total      Float
-  customer   String?
-  user User @relation(fields: [userId], references: [id])
-  items      OrderItem[]
-  payment    Payment?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  status    OrderStatus @default(PENDING)
+  total     Float
+  customer  String?
+  id        Int         @id @default(autoincrement())
+  userId    Int
+  user      User        @relation(fields: [userId], references: [id])
+  items     OrderItem[]
+  payment   Payment?
 }
 
 model OrderItem {
-  id        Int   @id @default(autoincrement())
-  order     Order    @relation(fields: [orderId], references: [id])
-  orderId   Int
-  productId Int
   name      String
   price     Float
   quantity  Int
-
-  product Product @relation(fields: [productId], references: [id])
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 model Payment {
-  id           Int       @id @default(autoincrement())
-  order        Order        @relation(fields: [orderId], references: [id])
-  orderId      Int @unique
-  provider     String       
-  status       PaymentStatus @default(PENDING)
-  amount       Float
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  provider      String
+  status        PaymentStatus @default(PENDING)
+  amount        Float
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   playgroundUrl String?
+  id            Int           @id @default(autoincrement())
+  orderId       Int           @unique
+  order         Order         @relation(fields: [orderId], references: [id])
 }
 
 enum OrderStatus {
