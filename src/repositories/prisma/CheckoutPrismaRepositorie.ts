@@ -10,7 +10,11 @@ export class CheckoutPrismaRepositorie implements ICheckoutRepositorie{
             include: {
                 items: {
                     include: {
-                        product: true
+                        product: {
+                            include: {
+                                images: true
+                            }
+                        }
                     }
                 },
                 payment: true
