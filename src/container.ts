@@ -26,7 +26,7 @@ const checkoutRepositorie = new CheckoutPrismaRepositorie();
 const categoryService = new CategoryService(categoryRepositorie);
 const productService = new ProductService(productRepositorie);
 const cartProductService = new CartProductService(cartProductRepositorie);
-const checkoutServie = new CheckoutService(checkoutRepositorie);
+const checkoutServie = new CheckoutService(checkoutRepositorie, cartProductRepositorie);
 
 const secret = process.env.SECRET_KEY || "chave-super-secreta";
 export const jwt = new JwtService(secret);
