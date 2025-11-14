@@ -94,7 +94,7 @@ export class CartProductPrismaRepositorie implements ICartProductRepositorie {
 
         await prisma.cartProduct.deleteMany({
             where:{
-                cartId: cartId?.id
+                cartId: cartId?.cart?.id
             }
         })
     }
