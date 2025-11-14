@@ -6,4 +6,5 @@ export interface ICartProductRepositorie {
     getProductsInCart: (userId: number) => Promise<CartProduct[]>;
     productExists: (productId: number) => Promise<Product | null >;
     updateQuantityInCart: (userId: number, productId: number, change: number) => Promise<CartProduct | null>;
+    cleanCart: (userId: number) => Promise<void>;
 }

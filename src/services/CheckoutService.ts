@@ -1,8 +1,13 @@
 import { HttpError } from "../errors/HttpError";
+import { ICartProductRepositorie } from "../repositories/CartProductRepositorie";
+import { ICategoryRepository } from "../repositories/CategoryRepositorie";
 import { ICheckoutRepositorie, ItemsProps, PaymentStatus } from "../repositories/CheckoutRepositorie";
 
 export class CheckoutService {
-    constructor(readonly checkoutRepositorie: ICheckoutRepositorie){}
+    constructor(
+        readonly checkoutRepositorie: ICheckoutRepositorie,
+        readonly cartRepositorie: ICartProductRepositorie
+    ){}
 
     async getAllOrders (userId: number) {
         const orders = await this.checkoutRepositorie.getOrders(userId);
@@ -30,6 +35,7 @@ export class CheckoutService {
         if(!order) throw new HttpError(404, "Order ainda não foi criado!")
 
         const payment = await this.checkoutRepositorie.createPayment(order.id, total);
+        await this.cartRepositorie.cleanCart(userId);
 
         return payment
         

@@ -30,4 +30,7 @@ export class CartProductService {
         const productsCart = await this.cartProductRespositorie.getProductsInCart(userId);
         return productsCart
     }
+    async cleanCart (userId: number) {
+         await this.cartProductRespositorie.cleanCart(userId)
+    }
 }
