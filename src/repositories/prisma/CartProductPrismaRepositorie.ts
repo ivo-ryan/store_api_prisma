@@ -92,9 +92,11 @@ export class CartProductPrismaRepositorie implements ICartProductRepositorie {
     async cleanCart (userId: number) : Promise<void>{
        const cartId = await this.cartIdAlreadyExists(userId);
 
-        await prisma.cartProduct.deleteMany({
+       if(!cartId?.cart) return ;
+
+       await prisma.cartProduct.deleteMany({
             where:{
-                cartId: cartId?.cart?.id
+                cartId: cartId.cart.id
             }
         })
     }
