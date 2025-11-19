@@ -22,7 +22,7 @@ export class CheckoutService {
         if(status === "PAID") await this.checkoutRepositorie.updateOrder(payment.orderId, "PAID");
         else if(status === "FAILED") await this.checkoutRepositorie.updateOrder(payment.orderId, "PENDING");
 
-        return { payment, orderId: payment.orderId }
+        return  payment 
     }
 
     async createCheckout (items: ItemsProps[], userId: number, customer?: string | null)  {
