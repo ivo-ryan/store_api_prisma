@@ -7,6 +7,9 @@ export class CheckoutPrismaRepositorie implements ICheckoutRepositorie{
     getOrders (userId: number): Promise<Order[]>{
         return prisma.order.findMany({
             where: { userId },
+            orderBy: {
+                createdAt: "desc" 
+                },
             include: {
                 items: {
                     include: {
